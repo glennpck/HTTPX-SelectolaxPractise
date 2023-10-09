@@ -10,7 +10,7 @@ class Product:
     price: str
 
 def get_html(page):
-    url = f'https://www.thomann.de/intl/all-products-from-the-category-electric-guitars.html?ls=25&pg={page}'
+    url = f'https://shopee.sg/search?keyword=nike%20air%20force%201'
     resp = httpx.get(url)
     return HTMLParser(resp.text)
 
