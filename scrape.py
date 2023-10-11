@@ -5,33 +5,37 @@ from dataclasses import dataclass, asdict
 
 @dataclass
 class Product:
-    manufacturer: str
+    image: str
     title: str
     price: str
+    num_sold: str
 
-def get_html(page):
-    url = f'https://shopee.sg/search?keyword=nike%20air%20force%201'
+def get_html():
+    url = f'https://shopee.sg/search?keyword=nike'
     resp = httpx.get(url)
     return HTMLParser(resp.text)
 
 def parse_products(html):
-    products = html.css('div.product')
+    products = html.css('div.VTjd7p whIxGK')
     results = []
     for item in products:
+        text_title = item.css_first("div.ie3A+n bM+7UW Cve6sh").text()
+        print(text_title)
         new_item = Product(
-            manufacturer=item.css_first("span.title__manufacturer").text(),
-            title=item.css_first("span.title__name").text(),
-            price=item.css_first("div.product__price").text().strip()
+            image=item.css_first("img._7DTxhh tWoeMk").text(),
+            title=item.css_first("div.ie3A+n bM+7UW Cve6sh").text(),
+            price=item.css_first("span.ZEgDH9").text(),
+            num_sold=item.css_first("div.r6HknA uEPGHT").text()
         )
         results.append(asdict(new_item))
 
     return results
 
 def main():
-    for i in range(1, 4):
-        html = get_html(i)
-        res = parse_products(html)
-        print(res)
+    html = get_html()
+    print(html)
+    res = parse_products(html)
+    ##print(res)
 
 if __name__ == "__main__":
     main()

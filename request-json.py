@@ -1,9 +1,13 @@
 import requests
-import json
+import httpx
+from bs4 import BeautifulSoup
+from selectolax.parser import HTMLParser
 
-url = "https://jsonplaceholder.typicode.com/posts"
+base_url = "https://blackwells.co.uk"
 
-r = requests.get(url).json()
+url = "https://wordery.com/search?term=Eighty+Six+Light+Novel"
 
-for object in r:
-    print(object["userId"])
+resp = httpx.get(url)
+parse = HTMLParser(resp.text)
+for book in parse.css("li.o-book-list__book"):
+    print(book.css_first("a.c-book__title").text())
