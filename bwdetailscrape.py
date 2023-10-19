@@ -5,14 +5,16 @@ def get_title(item):
     print(item.css_first("img").attributes)
 
 
-url = "https://blackwells.co.uk/bookshop/search/?keyword=spy+classroom"
+url = "https://blackwells.co.uk/bookshop/product/9781974740581"
 
 base_url = "https://blackwells.co.uk"
 
 resp = httpx.get(url)
 parse = HTMLParser(resp.text)
-for item in parse.css("li.search-result__item "):
-    get_title(item)
+page = parse.css("div.container--50")
+
+desc = page[1].css("div")
+print(desc[2])
 
 # author_list = page[0].css("p.product__author > a")
 # for node in author_list:
